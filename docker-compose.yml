@@ -1,0 +1,33 @@
+version: '3.8'  # Docker Composeのバージョン
+
+services:
+  backend:
+    build:
+      context: ./  # バックエンドのDockerfileがあるディレクトリ
+      dockerfile: backend/Dockerfile  # Dockerfileの指定
+    ports:
+      - "8081:8081"  # ホストの8080ポートをコンテナの8080ポートにマッピング
+    volumes:
+      - ./backend:/app  # ソースコードの変更を即反映させるためのボリュームマウント
+    environment:
+      - POSTGRES_HOST=host  # PostgreSQLのホスト名を指定（dbサービス名）
+
+  frontend:
+    build:
+      context: ./frontend  # フロントエンドのDockerfileがあるディレクトリ
+      dockerfile: Dockerfile  # Dockerfileの指定
+    ports:
+      - "8080:80"  # ホストの80ポートをコンテナの80ポートにマッピング
+    depends_on:
+      - backend  # フロントエンドはバックエンドに依存
+
+  db:
+    image: postgres:alpine  # PostgreSQLの公式イメージを使用
+    restart: always  # コンテナが終了した場合に自動で再起動
+    environment:
+      POSTGRES_USER: user  # ユーザー名
+      POSTGRES_PASSWORD: password  # パスワード
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # 初期データをロード
+    ports:
+      - "5432:5432"  # ホストの5432ポートをコンテナの5432ポートにマッピング

@@ -1,0 +1,39 @@
+# Node modules for the frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+vendor/
+.DS_Store
+
+# Golang related
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build files
+/backend/bin/
+/backend/.env
+/backend/.vscode/
+/backend/tmp/
+
+# Database
+db/*.db
+
+# Docker related
+**/Dockerfile
+**/.dockerignore
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
